@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hellingmeter</title>
+<link rel="manifest" href="manifest.json">
+<style>
+body { font-family: sans-serif; padding: 20px; }
+.value { font-size: 1.4em; margin: 10px 0; }
+</style>
+</head>
+<body>
+
+<h2>Hellingmeter</h2>
+
+<button id="start">Sensoren inschakelen</button>
+
+<div class="value">Pitch (β): <span id="beta">-</span>°</div>
+<div class="value">Roll (γ): <span id="gamma">-</span>°</span></div>
+
+<script>
+async function enable() {
+    if (typeof DeviceOrientationEvent.requestPermission === "function") {
+        const p = await DeviceOrientationEvent.requestPermission();
+        if (p !== "granted") { alert("Geen toegang tot sensoren"); return; }
+    }
+    window.addEventListener("deviceorientation", e => {
+        document.getElementById("beta").textContent = e.beta.toFixed(1);
+        document.getElementById("gamma").textContent = e.gamma.toFixed(1);
+    });
+}
+
+document.getElementById("start").onclick = enable;
+
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+</script>
+
+</body>
+</html>
