@@ -1,6 +1,6 @@
 self.addEventListener("install", e => {
   e.waitUntil(
-    caches.open("helling-cache").then(c => c.addAll(["index.html","manifest.json"]))
+    caches.open("helling-cache-v2").then(c => c.addAll(["index.html","manifest.json"]))
   );
 });
 
